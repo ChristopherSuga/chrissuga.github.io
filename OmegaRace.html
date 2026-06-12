@@ -1,0 +1,603 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega Race — Chris Suga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #F8F8F6;
+            --ink: #0E0E0E;
+            --mid: #6B7280;
+            --faint: #E4E4E0;
+            --accent: #3D6FD4;
+            --accent-lo: #EEF2FB;
+            --card-bg: #FFFFFF;
+            --radius: 10px;
+            --mono: 'DM Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ─────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            background: rgba(248,248,246,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--faint);
+        }
+
+        .nav-back {
+            font-family: var(--mono);
+            font-size: 13px;
+            letter-spacing: .06em;
+            color: var(--mid);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color .2s;
+        }
+
+            .nav-back:hover {
+                color: var(--ink);
+            }
+
+        .nav-name {
+            font-family: var(--mono);
+            font-size: 14px;
+            letter-spacing: .04em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        /* ── HERO ─────────────────────────────────────────── */
+        .hero {
+            padding: 160px 48px 80px;
+            border-bottom: 1px solid var(--faint);
+            max-width: 900px;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 13px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -.02em;
+            margin-bottom: 24px;
+        }
+
+            .hero-title em {
+                font-style: normal;
+                font-weight: 500;
+            }
+
+        .hero-desc {
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--mid);
+            line-height: 1.65;
+            max-width: 620px;
+            margin-bottom: 32px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: .06em;
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: var(--accent-lo);
+            color: var(--accent);
+        }
+
+        /* ── MAIN CONTENT ─────────────────────────────────── */
+        .content {
+            padding: 80px 48px;
+            max-width: 1100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-family: var(--mono);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--mid);
+            white-space: nowrap;
+        }
+
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: var(--faint);
+        }
+
+        /* ── MEDIA GRID ───────────────────────────────────── */
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 80px;
+        }
+
+            .media-grid .media-main {
+                grid-column: 1 / -1;
+            }
+
+        .media-slot {
+            background: var(--card-bg);
+            border: 1px solid var(--faint);
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+            .media-slot img,
+            .media-slot video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+        /* Placeholder styling */
+        .media-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--faint);
+        }
+
+            .media-placeholder svg {
+                opacity: .3;
+            }
+
+            .media-placeholder span {
+                font-family: var(--mono);
+                font-size: 11px;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                color: var(--mid);
+                opacity: .5;
+            }
+
+        /* ── OVERVIEW GRID ────────────────────────────────── */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        .overview-text {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--mid);
+            line-height: 1.8;
+        }
+
+            .overview-text strong {
+                font-weight: 500;
+                color: var(--ink);
+            }
+
+            .overview-text p + p {
+                margin-top: 16px;
+            }
+
+        /* ── DETAILS CARD ─────────────────────────────────── */
+        .details-card {
+            background: var(--card-bg);
+            border: 1px solid var(--faint);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--faint);
+            gap: 24px;
+        }
+
+            .detail-row:last-child {
+                border-bottom: none;
+            }
+
+        .detail-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--mid);
+            white-space: nowrap;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--ink);
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* ── FEATURES ─────────────────────────────────────── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--faint);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-lo);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+            .feature-icon svg {
+                color: var(--accent);
+            }
+
+        .feature-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: -.01em;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: var(--mid);
+            line-height: 1.6;
+        }
+
+        /* ── NAV FOOTER ───────────────────────────────────── */
+        .page-nav {
+            padding: 48px;
+            border-top: 1px solid var(--faint);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-nav-link {
+            font-family: var(--mono);
+            font-size: 13px;
+            letter-spacing: .06em;
+            text-decoration: none;
+            color: var(--mid);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color .2s;
+        }
+
+            .page-nav-link:hover {
+                color: var(--accent);
+            }
+
+        /* ── RESPONSIVE ──────────────────────────────────── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 20px;
+            }
+
+            .hero, .content {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .hero {
+                padding-top: 120px;
+            }
+
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .page-nav {
+                padding: 32px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a class="nav-back" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+            Back
+        </a>
+        <a class="nav-name" href="index.html">chris</a>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <p class="hero-eyebrow">DePaul University · 2025</p>
+        <h1 class="hero-title"><em>Omega</em><br>Race</h1>
+        <p class="hero-desc">
+            A networked multiplayer arcade shooter rebuilt from the ground up.
+            Two players compete in real time over UDP — each ship firing missiles,
+            laying mines, and dodging in a confined arena.
+        </p>
+        <div class="hero-tags">
+            <span class="tag">C#</span>
+            <span class="tag">Lidgren.Network</span>
+            <span class="tag">Box2DX</span>
+            <span class="tag">Azul Engine</span>
+            <span class="tag">Networked Multiplayer</span>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- MEDIA -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Media</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="media-grid">
+                <!-- Main slot: swap for a video or screenshot -->
+                <div class="media-slot media-main">
+                    <!-- <video src="omega-race-demo.mp4" autoplay muted loop playsinline></video> -->
+                    <!-- <img src="images/omega-race-main.png" alt="Omega Race gameplay"> -->
+                    <div class="media-placeholder">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="5,3 19,12 5,21" /></svg>
+                        <span>Gameplay video</span>
+                    </div>
+                </div>
+                <!-- Secondary screenshots -->
+                <div class="media-slot">
+                    <!-- <img src="images/omega-race-screenshot-1.png" alt=""> -->
+                    <div class="media-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                        <span>Screenshot</span>
+                    </div>
+                </div>
+                <div class="media-slot">
+                    <!-- <img src="images/omega-race-screenshot-2.png" alt=""> -->
+                    <div class="media-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                        <span>Screenshot</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OVERVIEW + DETAILS -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Overview</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-text">
+                    <p>
+                        Omega Race is a remake of the classic 1981 arcade game, rebuilt as a
+                        <strong>networked two-player experience</strong> using the Azul engine framework.
+                        The project focused on building a robust real-time networking layer from scratch
+                        rather than relying on high-level abstractions.
+                    </p>
+                    <p>
+                        The network layer uses <strong>Lidgren.Network</strong> over UDP with a
+                        data-driven message queue architecture. Messages are polymorphically serialized
+                        by type — player input, missile fire, mine placement, collision events, and state
+                        sync — each routed to the appropriate delivery method and channel.
+                    </p>
+                    <p>
+                        To reduce garbage collection pressure, all messages are managed through a
+                        <strong>pooling system</strong> using generic <code>MessagePool&lt;T&gt;</code>
+                        instances, avoiding per-frame allocations during gameplay. Client-side
+                        <strong>dead-reckoning prediction</strong> keeps movement smooth even under
+                        network jitter.
+                    </p>
+                </div>
+                <div class="details-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Role</span>
+                        <span class="detail-value">Solo Developer</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Timeline</span>
+                        <span class="detail-value">Jan 2025 – Present</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Platform</span>
+                        <span class="detail-value">PC / Windows</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Engine</span>
+                        <span class="detail-value">Azul (custom C# framework)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Networking</span>
+                        <span class="detail-value">Lidgren.Network (UDP)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Physics</span>
+                        <span class="detail-value">Box2DX</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Course</span>
+                        <span class="detail-value">Game Programming — DePaul University</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Key Systems</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                    </div>
+                    <h3 class="feature-title">Message Queue Architecture</h3>
+                    <p class="feature-desc">
+                        Data-driven queue with <code>DataMessage</code> as an abstract base. Each message
+                        type carries its own serialization logic and delivery metadata — channel,
+                        reliability, and recipient scope.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></svg>
+                    </div>
+                    <h3 class="feature-title">Message Pooling</h3>
+                    <p class="feature-desc">
+                        Generic <code>MessagePool&lt;T&gt;</code> instances managed by a central
+                        <code>MessagePoolManager</code>, eliminating per-frame heap allocations
+                        and reducing GC pressure during gameplay.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    </div>
+                    <h3 class="feature-title">Time Sync & Prediction</h3>
+                    <p class="feature-desc">
+                        Christian's algorithm for clock synchronization between peers. Dead-reckoning
+                        client prediction keeps remote player movement smooth under variable
+                        network conditions.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></svg>
+                    </div>
+                    <h3 class="feature-title">Strategy Pattern</h3>
+                    <p class="feature-desc">
+                        Swappable network strategies — <code>NormalStrategy</code>,
+                        <code>RecordStrategy</code>, and <code>PlaybackStrategy</code> — allow
+                        the game to record and replay sessions for debugging and testing.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+                    </div>
+                    <h3 class="feature-title">Box2DX Physics</h3>
+                    <p class="feature-desc">
+                        Ships, missiles, and mines are all Box2D bodies. Collision events are
+                        serialized and sent over the network to keep both clients in sync
+                        without re-simulating physics on the remote side.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                    </div>
+                    <h3 class="feature-title">Two-Player Networking</h3>
+                    <p class="feature-desc">
+                        Peer-to-peer UDP session over Lidgren.Network. Unreliable sequenced
+                        delivery for high-frequency input, reliable ordered delivery for
+                        one-time events like collisions and game state changes.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- PAGE NAV -->
+    <div class="page-nav">
+        <a class="page-nav-link" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+            All Projects
+        </a>
+        <a class="page-nav-link" href="3d-engine.html">
+            3D Game Engine
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6" /></svg>
+        </a>
+    </div>
+
+</body>
+</html>

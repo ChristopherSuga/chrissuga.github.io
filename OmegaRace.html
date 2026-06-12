@@ -464,9 +464,8 @@
                     <p>
                         To reduce garbage collection pressure, all messages are managed through a
                         <strong>pooling system</strong> using generic <code>MessagePool&lt;T&gt;</code>
-                        instances, avoiding per-frame allocations during gameplay. Client-side
-                        <strong>dead-reckoning prediction</strong> keeps movement smooth even under
-                        network jitter.
+                        instances, avoiding per-frame allocations during gameplay. <strong>Client-Side Prediction/Dead-Reckoning</strong>
+			keeps movement smooth even under network jitter.
                     </p>
                 </div>
                 <div class="details-card">
@@ -517,7 +516,7 @@
                     <h3 class="feature-title">Message Queue Architecture</h3>
                     <p class="feature-desc">
                         Data-driven queue with <code>DataMessage</code> as an abstract base. Each message
-                        type carries its own serialization logic and delivery metadata — channel,
+                        type carries its own serialization logic and delivery metadata channel,
                         reliability, and recipient scope.
                     </p>
                 </div>
@@ -540,7 +539,7 @@
                     </div>
                     <h3 class="feature-title">Time Sync & Prediction</h3>
                     <p class="feature-desc">
-                        Christian's algorithm for clock synchronization between peers. Dead-reckoning
+                        Cristian's algorithm for clock synchronization between peers. Dead-reckoning
                         client prediction keeps remote player movement smooth under variable
                         network conditions.
                     </p>
@@ -566,7 +565,7 @@
                     <p class="feature-desc">
                         Ships, missiles, and mines are all Box2D bodies. Collision events are
                         serialized and sent over the network to keep both clients in sync
-                        without re-simulating physics on the remote side.
+                        without re-simulating physics on the Client side.
                     </p>
                 </div>
 

@@ -65,6 +65,22 @@
     display: flex; flex-direction: column; justify-content: flex-end;
     padding: 0 48px 80px;
     border-bottom: 1px solid var(--faint);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.55;
+  }
+
+  .hero > *:not(.hero-canvas) {
+    position: relative;
+    z-index: 1;
   }
 
   .hero-eyebrow {
@@ -380,6 +396,7 @@
 
 <!-- HERO -->
 <div class="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
   <p class="hero-eyebrow">Game Programmer</p>
   <h1 class="hero-name">Chris<br><em>Suga</em></h1>
   <p class="hero-desc">
@@ -394,6 +411,7 @@
     <span class="tag">Engine Dev</span>
     <span class="tag">Networking</span>
     <span class="tag">Unity</span>
+    <span class="tag">Scene Graphs</span>
   </div>
 </div>
 
@@ -581,5 +599,92 @@
   <span>Game Programmer</span>
 </footer>
 
+<script>
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const CELL = 32;          // pixel grid cell size
+  const SCAN_SPEED = 0.4;   // scanline drift speed
+  const GLYPH_CHARS = '01アイウエオカキクケコサ#><{}[];';
+  const ACCENT = '61,111,212';  // rgb of --accent
+
+  let cols, rows, glyphs, scanOffset = 0, raf;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    cols = Math.ceil(canvas.width  / CELL) + 1;
+    rows = Math.ceil(canvas.height / CELL) + 1;
+    // seed glyphs grid
+    glyphs = Array.from({ length: cols }, () =>
+      Array.from({ length: rows }, () => ({
+        char:    GLYPH_CHARS[Math.random() * GLYPH_CHARS.length | 0],
+        opacity: Math.random() * 0.5 + 0.05,
+        tick:    Math.random() * 120 | 0,   // when to next change
+        age:     Math.random() * 120 | 0,
+      }))
+    );
+  }
+
+  function draw(ts) {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // ── pixel grid ──────────────────────────────────
+    ctx.strokeStyle = `rgba(${ACCENT},0.07)`;
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += CELL) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += CELL) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // ── glyphs ───────────────────────────────────────
+    ctx.font = `${CELL * 0.5}px 'DM Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const g = glyphs[c][r];
+        g.age++;
+        if (g.age >= g.tick) {
+          g.char    = GLYPH_CHARS[Math.random() * GLYPH_CHARS.length | 0];
+          g.opacity = Math.random() * 0.45 + 0.04;
+          g.tick    = 60 + (Math.random() * 180 | 0);
+          g.age     = 0;
+        }
+        ctx.fillStyle = `rgba(${ACCENT},${g.opacity})`;
+        ctx.fillText(g.char, c * CELL + CELL / 2, r * CELL + CELL / 2);
+      }
+    }
+
+    // ── scanlines ────────────────────────────────────
+    scanOffset = (scanOffset + SCAN_SPEED) % (CELL * 2);
+    for (let y = -CELL * 2 + scanOffset; y < H; y += CELL * 2) {
+      const grad = ctx.createLinearGradient(0, y, 0, y + CELL);
+      grad.addColorStop(0,   `rgba(0,0,0,0)`);
+      grad.addColorStop(0.5, `rgba(0,0,0,0.06)`);
+      grad.addColorStop(1,   `rgba(0,0,0,0)`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y, W, CELL);
+    }
+
+    // ── vignette ─────────────────────────────────────
+    const vig = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.9);
+    vig.addColorStop(0, 'rgba(248,248,246,0)');
+    vig.addColorStop(1, 'rgba(248,248,246,0.72)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); });
+  resize();
+  raf = requestAnimationFrame(draw);
+})();
+</script>
 </body>
 </html>

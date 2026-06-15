@@ -356,6 +356,23 @@
 
   .contact-link:hover { color: var(--accent); }
 
+.card-play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(14,14,14,0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    pointer-events: none;
+    transition: background .2s;
+}
+
+.project-card:hover .card-play-btn {
+    background: rgba(61,111,212,0.85);
+}
   /* ── FOOTER ──────────────────────────────────────── */
   footer {
     padding: 24px 48px;
@@ -427,20 +444,18 @@
     <!-- Project 1: Omega Race -->
     <a href="OmegaRace.html" style="text-decoration:none; color:inherit; display:contents;">
     <div class="project-card">
-      <div class="card-media">
-        <!-- Replace src with your screenshot or video -->
-        <div class="card-media-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="1.2">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
-        <div class="card-stack-bar">
-          <span class="stack-chip">C#</span>
-          <span class="stack-chip">Lidgren.Network</span>
-          <span class="stack-chip">Box2DX</span>
-          <span class="stack-chip">Azul Engine</span>
-        </div>
-      </div>
+<div class="card-media">
+    <img src="Images/OmegaRaceMain.png" alt="Omega Race">
+    <div class="card-play-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+    </div>
+    <div class="card-stack-bar">
+        <span class="stack-chip">C#</span>
+        <span class="stack-chip">Lidgren.Network</span>
+        <span class="stack-chip">Box2DX</span>
+        <span class="stack-chip">Azul Engine</span>
+    </div>
+</div>
       <div class="card-body">
         <h2 class="card-title">Omega Race</h2>
         <p class="card-desc">
@@ -500,32 +515,6 @@
         </p>
       </div>
     </div>
-
-    <!-- Project 4: Rooty Tooty -->
-    <div class="project-card">
-      <div class="card-media">
-        <div class="card-media-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0E0E0E" stroke-width="1.2">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
-        <div class="card-stack-bar">
-          <span class="stack-chip">Unity</span>
-          <span class="stack-chip">C#</span>
-          <span class="stack-chip">GitHub</span>
-          <span class="stack-chip">JIRA</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <h2 class="card-title">Rooty Tooty</h2>
-        <p class="card-desc">
-          2D platformer developed as a senior capstone at CSULB. Designed and implemented
-          all enemy AI — melee, ranged, and boss — and collaborated with a team of 6 via
-          GitHub. Shipped on itch.io; managed 2-week Agile sprints with 95% on-time task completion.
-        </p>
-      </div>
-    </div>
-
   </div>
 </section>
 

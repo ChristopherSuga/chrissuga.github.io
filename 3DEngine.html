@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders — Chris Suga</title>
+    <title>3D Game Engine — Chris Suga</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -176,6 +176,7 @@
             border: 1px solid var(--faint);
             border-radius: var(--radius);
             overflow: hidden;
+            aspect-ratio: 16/9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,17 +187,15 @@
             .media-slot video {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
+                object-fit: cover;
                 display: block;
             }
 
-        /* Placeholder styling */
         .media-placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            color: var(--faint);
         }
 
             .media-placeholder svg {
@@ -298,11 +297,8 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 14px;
+            color: var(--accent);
         }
-
-            .feature-icon svg {
-                color: var(--accent);
-            }
 
         .feature-title {
             font-size: 15px;
@@ -317,7 +313,7 @@
             line-height: 1.6;
         }
 
-        /* ── NAV FOOTER ───────────────────────────────────── */
+        /* ── PAGE NAV ─────────────────────────────────────── */
         .page-nav {
             padding: 48px;
             border-top: 1px solid var(--faint);
@@ -385,237 +381,201 @@
         <a class="nav-name" href="index.html">chris</a>
     </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <p class="hero-eyebrow">DePaul University · 2025</p>
-  <h1 class="hero-title"><em>Space</em><br>Invaders</h1>
-  <p class="hero-desc">
-    A remake of the 1978 arcade classic, rebuilt in C# with a focus
-    on applying modern object-oriented design patterns throughout every layer
-    of the game's architecture.
-  </p>
-  <div class="hero-tags">
-    <span class="tag">C#</span>
-    <span class="tag">Azul Engine</span>
-    <span class="tag">OOP</span>
-    <span class="tag">Design Patterns</span>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-<!-- MEDIA -->
-<section>
-    <div class="section-header">
-        <span class="section-title">Media</span>
-        <div class="section-rule"></div>
-    </div>
-    <div class="media-grid">
-        <div class="media-slot media-main">
-            <video src="Video/SpaceInvadersDemo.mp4"
-                   poster="Images/SpaceInvadersMain.png"
-                   loop
-                   playsinline
-                   controls
-                   muted>
-            </video>
-        </div>
-        <div class="media-slot">
-            <img src="Images/SpaceInvadersScreenshot1.png" alt="Space Invaders screenshot 1">
-        </div>
-        <div class="media-slot">
-            <img src="Images/SpaceInvadersScreenshot2.png" alt="Space Invaders screenshot 2">
-        </div>
-        <div class="media-slot">
-            <img src="Images/SpaceInvadersScreenshot3.png" alt="Space Invaders screenshot 3">
-        </div>
-        <div class="media-slot">
-            <img src="Images/SpaceInvadersScreenshot4.png" alt="Space Invaders screenshot 4">
+    <!-- HERO -->
+    <div class="hero">
+        <p class="hero-eyebrow">DePaul University · 2025</p>
+        <h1 class="hero-title"><em>3D Game</em><br>Engine</h1>
+        <p class="hero-desc">
+            A custom 3D engine built from scratch in C++ using DirectX 11, featuring
+            a full scene graph, hierarchical transforms, camera management, and a
+            manager/node infrastructure for shaders, meshes, and game objects.
+        </p>
+        <div class="hero-tags">
+            <span class="tag">C++</span>
+            <span class="tag">DirectX 11</span>
+            <span class="tag">Azul Engine</span>
+            <span class="tag">PCS Tree</span>
+            <span class="tag">Scene Graph</span>
         </div>
     </div>
-</section>
 
-  <!-- OVERVIEW + DETAILS -->
-  <section>
-    <div class="section-header">
-      <span class="section-title">Overview</span>
-      <div class="section-rule"></div>
-    </div>
-    <div class="overview-grid">
-      <div class="overview-text">
-        <p>
-          Space Invaders is a remake of the classic 1978 arcade game, developed
-          in C# on the Azul engine framework. The project was designed as a deep
-          dive into <strong>object-oriented design patterns</strong>, applying over
-          a dozen patterns across the game's systems.
-        </p>
-        <p>
-          Every major system from enemy management, bullet firing, collision handling,
-          to rendering was built with a specific pattern in mind. The result is a
-          codebase that is highly modular, easy to extend, and straightforward
-          to debug.
-        </p>
-        <p>
-          Patterns like <strong>Object Pooling</strong> and <strong>Priority Queue</strong>
-          target runtime performance, while <strong>Composite</strong> and
-          <strong>Iterator</strong> handle the enemy grid hierarchy and traversal.
-          <strong>Command</strong> and <strong>Template</strong> keep input and
-          game loop logic clean and reusable.
-        </p>
-      </div>
-      <div class="details-card">
-        <div class="detail-row">
-          <span class="detail-label">Role</span>
-          <span class="detail-value">Solo Developer</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Timeline</span>
-          <span class="detail-value">Jan 2025 – March 2025</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Platform</span>
-          <span class="detail-value">PC / Windows</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Engine</span>
-          <span class="detail-value">Azul (custom C# framework)</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Language</span>
-          <span class="detail-value">C#</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Course</span>
-          <span class="detail-value">Game Programming — DePaul University</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- CONTENT -->
+    <div class="content">
 
-  <!-- DESIGN PATTERNS -->
-  <section>
-    <div class="section-header">
-      <span class="section-title">Design Patterns</span>
-      <div class="section-rule"></div>
-    </div>
-    <div class="features-grid">
+        <!-- MEDIA -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Media</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="media-grid">
+                <div class="media-slot media-main">
+                    <video src="Video/3DEngineDemo.mp4" poster="Images/3DEngineMain.png" loop playsinline controls></video>
+                </div>
+                <div class="media-slot">
+                    <img src="Images/3DEngineScreenshot1.png" alt="3D Engine Screenshot 1">
+                </div>
+                <div class="media-slot">
+                    <img src="Images/3DEngineScreenshot2.png" alt="3D Engine Screenshot 2">
+                </div>
+            </div>
+        </section>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        </div>
-        <h3 class="feature-title">Singleton</h3>
-        <p class="feature-desc">
-          Ensures a single instance of core managers such as textures, images, sprites, and sound in order to be accessible globally without polluting the namespace.
-        </p>
-      </div>
+        <!-- OVERVIEW + DETAILS -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Overview</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-text">
+                    <p>
+                        This engine was built incrementally across multiple milestones as part of
+                        the Real-Time Software Development course at DePaul University. Every core system was implemented from
+                        scratch in <strong>C++ with DirectX 11</strong>.
+                    </p>
+                    <p>
+                        The scene graph is built on a <strong>PCS (Parent-Child-Sibling) tree</strong>,
+                        allowing game objects to form hierarchical relationships. Transform matrices
+                        compose down the tree each frame, with scaling, rotation, and translation applied
+                        in the correct order and multiplied against the parent's world matrix.
+                    </p>
+                    <p>
+                        The engine's infrastructure follows a consistent <strong>manager/node pattern</strong>
+                        using doubly linked lists managed by a base manager class, covering shaders,
+                        cameras, meshes, and game objects alike. The camera system supports
+                        multiple cameras with full projection and view matrix management.
+                    </p>
+                </div>
+                <div class="details-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Role</span>
+                        <span class="detail-value">Solo Developer</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Timeline</span>
+                        <span class="detail-value">March 2026 – Present</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Platform</span>
+                        <span class="detail-value">PC / Windows</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Language</span>
+                        <span class="detail-value">C++</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Graphics API</span>
+                        <span class="detail-value">DirectX 11</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Framework</span>
+                        <span class="detail-value">Azul (custom C++ base)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Course</span>
+                        <span class="detail-value">Real-Time Software Dev I — DePaul University</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <h3 class="feature-title">Factory</h3>
-        <p class="feature-desc">
-          Centralizes enemy and shield  creation. Swapping out
-          entity types or adding new ones requires no changes to calling code.
-        </p>
-      </div>
+        <!-- KEY SYSTEMS -->
+        <section>
+            <div class="section-header">
+                <span class="section-title">Key Systems</span>
+                <div class="section-rule"></div>
+            </div>
+            <div class="features-grid">
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        </div>
-        <h3 class="feature-title">Object Pooling</h3>
-        <p class="feature-desc">
-            Objects were returned to the pool when no longer needed, and retrieved from it when required, avoiding the overhead of constantly creating and destroying them.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></svg>
+                    </div>
+                    <h3 class="feature-title">PCS Tree Scene Graph</h3>
+                    <p class="feature-desc">
+                        All game objects live in a Parent-Child-Sibling tree. Forward and reverse
+                        iterators traverse the hierarchy without loops. All traversal logic
+                        is embedded in insert and remove operations.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3 class="feature-title">Composite</h3>
-        <p class="feature-desc">
-            The Composite Pattern organized the game world hierarchy, letting us treat groups of objects as single entities. 
-            The AlienGrid contained AlienColumns which contained individual Aliens, allowing us to handle the 
-            entire grid as one unit for movement and collision detection, while still being able to traverse down to 
-            individual Alien-level collisions when needed.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" /></svg>
+                    </div>
+                    <h3 class="feature-title">Hierarchical Transforms</h3>
+                    <p class="feature-desc">
+                        Each game object composes Scale, Rotation, and Translation matrices
+                        and multiplies against its parent's world matrix each frame, enabling
+                        complex nested motion like orbiting child objects.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <h3 class="feature-title">Iterator</h3>
-        <p class="feature-desc">
-          Custom iterator traverses all of our  composite trees without
-          exposing their internal structure, keeping update and render
-          loops clean and decoupled.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+                    </div>
+                    <h3 class="feature-title">Camera System</h3>
+                    <p class="feature-desc">
+                        Multiple cameras managed through <code>CameraNodeMan</code>.
+                        Each camera owns its projection and view matrices as heap-allocated
+                        pointers with full constructor/destructor lifecycle management.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <h3 class="feature-title">Command</h3>
-        <p class="feature-desc">
-            We combined the Command Pattern with TimerEventMan to 
-            encapsulate actions like movement, animation, and sound
-            as command objects executed at scheduled times.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg>
+                    </div>
+                    <h3 class="feature-title">Custom Math Library</h3>
+                    <p class="feature-desc">
+                        All engine math is powered by a custom-built library with no external
+                        dependencies. Includes Vec3, Vec4, Mat3, Mat4, and dedicated
+                        Rot, Scale, and Trans matrix types, used throughout the engine
+                        for transforms, camera math, and shader constant buffers.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-        </div>
-        <h3 class="feature-title">Template</h3>
-        <p class="feature-desc">
-            The Template Pattern let us define common logic in base classes while 
-            allowing subclasses to customize specific behavior without altering the overall structure.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                    </div>
+                    <h3 class="feature-title">Shader Pipeline</h3>
+                    <p class="feature-desc">
+                        Vertex and pixel shaders compiled and managed through
+                        <code>ShaderObjectNodeMan</code>.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        </div>
-        <h3 class="feature-title">Proxy</h3>
-        <p class="feature-desc">
-            The Proxy Pattern let us create lightweight proxies referencing a single shared RealSprite. 
-            Each GameSpriteProxy stores only position and scale, delegating rendering to the RealSprite when needed, 
-            reducing memory usage and improving performance.
-        </p>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" /></svg>
+                    </div>
+                    <h3 class="feature-title">Game Object Behaviors</h3>
+                    <p class="feature-desc">
+                        Specialized subclasses such as <code>GameObject_Spin</code>,
+                        <code>GameObject_OrbitParent</code>, and <code>GameObject_Orbit</code>
+                        demonstrate the scene graph with live spinning, and orbitting.
+                    </p>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <h3 class="feature-title">Adapter</h3>
-        <p class="feature-desc">
-          Adapters wrap Azul engine interfaces so game logic never depends
-          directly on the framework, keeping core systems portable and
-          independently testable.
-        </p>
-      </div>
+            </div>
+        </section>
 
     </div>
-  </section>
 
-</div>
-
-<!-- PAGE NAV -->
-<div class="page-nav">
-  <a class="page-nav-link" href="index.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    All Projects
-  </a>
-</div>
+    <!-- PAGE NAV -->
+    <div class="page-nav">
+        <a class="page-nav-link" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+            All Projects
+        </a>
+        <a class="page-nav-link" href="OmegaRace.html">
+            Omega Race
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6" /></svg>
+        </a>
+    </div>
 
 </body>
 </html>

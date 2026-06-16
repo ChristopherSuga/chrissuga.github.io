@@ -187,7 +187,7 @@
             .media-slot video {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: contain;
                 display: block;
             }
 
@@ -415,12 +415,12 @@
     </div>
     <div class="media-grid">
         <div class="media-slot media-main">
-            <video 
-                src="Video/OmegaRaceDemo.mp4" 
-                poster="Images/OmegaRaceMain.png"
-                loop 
-                playsinline
-                controls>
+            <video src="Video/OmegaRaceDemo.mp4"
+                   poster="Images/OmegaRaceMain.png"
+                   loop
+                   playsinline
+                   controls
+                   muted>
             </video>
         </div>
         <div class="media-slot">

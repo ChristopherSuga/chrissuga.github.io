@@ -681,3 +681,686 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Suga — Game Programmer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #F8F8F6;
+    --ink:       #0E0E0E;
+    --mid:       #6B7280;
+    --faint:     #E4E4E0;
+    --accent:    #3D6FD4;
+    --accent-lo: #EEF2FB;
+    --card-bg:   #FFFFFF;
+    --radius:    10px;
+    --mono:      'DM Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: rgba(248,248,246,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .nav-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: .04em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 80px;
+    border-bottom: 1px solid var(--faint);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.55;
+  }
+
+  .hero > *:not(.hero-canvas) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .hero-name {
+    font-size: clamp(52px, 8vw, 112px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -.02em;
+    margin-bottom: 28px;
+  }
+
+  .hero-name em {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .hero-desc {
+    max-width: 520px;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: var(--accent-lo);
+    color: var(--accent);
+  }
+
+  /* ── SECTION LAYOUT ──────────────────────────────── */
+  section {
+    padding: 96px 48px;
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 20px;
+    margin-bottom: 56px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-family: var(--mono);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--faint);
+  }
+
+  /* ── PROJECT GRID ─────────────────────────────────── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--faint);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: box-shadow .25s, transform .25s;
+    cursor: pointer;
+  }
+
+  .project-card:hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,.08);
+    transform: translateY(-3px);
+  }
+
+  /* Media slot */
+  .card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--faint);
+  }
+
+  .card-media img,
+  .card-media video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+
+  .project-card:hover .card-media img,
+  .project-card:hover .card-media video {
+    transform: scale(1.03);
+  }
+
+  /* Stack bar slides up on hover */
+  .card-stack-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 12px 16px;
+    background: rgba(14,14,14,.72);
+    backdrop-filter: blur(6px);
+    display: flex; flex-wrap: wrap; gap: 6px;
+    transform: translateY(100%);
+    transition: transform .3s ease;
+  }
+
+  .project-card:hover .card-stack-bar {
+    transform: translateY(0);
+  }
+
+  .stack-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+    color: rgba(255,255,255,.85);
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+
+  /* Placeholder when no media provided */
+  .card-media-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #EEF2FB 0%, #E4E4E0 100%);
+  }
+
+  .card-media-placeholder svg {
+    opacity: .25;
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 24px;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .card-links {
+    display: flex; gap: 12px;
+  }
+
+  .card-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .05em;
+    text-decoration: none;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 5px;
+    transition: opacity .2s;
+  }
+
+  .card-link:hover { opacity: .65; }
+
+  .card-link svg { flex-shrink: 0; }
+
+  /* ── ABOUT ───────────────────────────────────────── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+
+  .about-text strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .skills-list {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .skill-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .skill-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .skill-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .skill-items {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink);
+    text-align: right;
+  }
+
+  /* ── CONTACT ─────────────────────────────────────── */
+  .contact-inner {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .contact-heading {
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 300;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    max-width: 560px;
+  }
+
+  .contact-heading em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .contact-links {
+    display: flex; flex-direction: column; gap: 10px;
+    align-items: flex-end;
+  }
+
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .06em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color .2s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+
+.card-play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(14,14,14,0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    pointer-events: none;
+    transition: background .2s;
+}
+
+.project-card:hover .card-play-btn {
+    background: rgba(61,111,212,0.85);
+}
+  /* ── FOOTER ──────────────────────────────────────── */
+  footer {
+    padding: 24px 48px;
+    border-top: 1px solid var(--faint);
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--mid);
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero, section { padding-left: 20px; padding-right: 20px; }
+    .hero { padding-bottom: 60px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-links { align-items: flex-start; }
+    footer { flex-direction: column; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-name" href="#">Home</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <p class="hero-eyebrow">Game Programmer</p>
+  <h1 class="hero-name">Chris<br><em>Suga</em></h1>
+  <p class="hero-desc">
+    I build game engines, networked gameplay systems, and interactive experiences
+    from the ground up with a focus on clean architecture and real-time performance.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">C++</span>
+    <span class="tag">C#</span>
+    <span class="tag">Java</span>
+    <span class="tag">Python</span>
+    <span class="tag">Engine Dev</span>
+    <span class="tag">Networking</span>
+    <span class="tag">Unity</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-title">Projects</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="projects-grid">
+
+      <!-- Project 2: 3D Engine -->
+      <a href="3DEngine.html" style="text-decoration:none; color:inherit; display:contents;">
+          <div class="project-card">
+              <div class="card-media">
+                  <img src="Images/3DEngineMain.png" alt="3D Engine">
+                  <div class="card-play-btn">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21" /></svg>
+                  </div>
+                  <div class="card-stack-bar">
+                      <span class="stack-chip">C++</span>
+                      <span class="stack-chip">Azul Engine</span>
+                      <span class="stack-chip">OpenGL</span>
+                      <span class="stack-chip">PCS Tree</span>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h2 class="card-title">3D Game Engine</h2>
+                  <p class="card-desc">
+                      Custom 3D engine featuring a PCS tree scene graph, matrix-based
+                      hierarchical transforms, orbiting object behaviors, and a full
+                      manager/node infrastructure for shaders, cameras, and game objects.
+                  </p>
+              </div>
+          </div>
+      </a>
+
+
+      <!-- Project 2: Omega Race -->
+      <a href="OmegaRace.html" style="text-decoration:none; color:inherit; display:contents;">
+          <div class="project-card">
+              <div class="card-media">
+                  <img src="Images/OmegaRaceMain.png" alt="Omega Race">
+                  <div class="card-play-btn">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21" /></svg>
+                  </div>
+                  <div class="card-stack-bar">
+                      <span class="stack-chip">C#</span>
+                      <span class="stack-chip">Lidgren.Network</span>
+                      <span class="stack-chip">Box2DX</span>
+                      <span class="stack-chip">Azul Engine</span>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h2 class="card-title">Omega Race</h2>
+                  <p class="card-desc">
+                      Networked multiplayer arcade shooter built on the Azul framework.
+                      Features a data-driven message queue with polymorphic serialization,
+                      message pooling for GC reduction, and client-side dead-reckoning prediction.
+                  </p>
+              </div>
+          </div>
+      </a>
+
+      <!-- Project 3: Space Invaders -->
+      <a href="SpaceInvaders.html" style="text-decoration:none; color:inherit; display:contents;">
+          <div class="project-card">
+              <div class="card-media">
+                  <img src="Images/SpaceInvadersMain.png" alt="Space Invaders" style="object-position: center 80%;">
+                  <div class="card-play-btn">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21" /></svg>
+                  </div>
+                  <div class="card-stack-bar">
+                      <span class="stack-chip">C#</span>
+                      <span class="stack-chip">Azul Engine</span>
+                      <span class="stack-chip">OOP</span>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h2 class="card-title">Space Invaders</h2>
+                  <p class="card-desc">
+                      Remake of the classic arcade game built in C# with a focus on modern
+                      OOP design patterns: Singleton, Factory, Object Pooling, Priority Queue,
+                      Proxy, Command, Iterator, Template, Composite, Null Object, and Adapter.
+                  </p>
+              </div>
+          </div>
+      </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: var(--card-bg); border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint);">
+  <div class="section-header">
+    <span class="section-title">About</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="about-grid">
+    <div>
+      <p class="about-text">
+        I'm a game programming graduate student at <strong>DePaul University</strong>
+        (MS Computer Science focused on Game Programming), with a BS in Computer Science from
+        <strong>Cal State Long Beach</strong>. I focus on <strong>engine architecture</strong>,
+        low-level systems, and real-time gameplay, building the infrastructure that makes
+        games possible.<br><br>
+        My work spans networked multiplayer systems, AI, physics integration,
+        and OOP design patterns. I speak conversational Portuguese, basic Spanish, and basic Japanese.
+      </p>
+    </div>
+    <div class="skills-list">
+      <div class="skill-row">
+        <span class="skill-label">Languages</span>
+        <span class="skill-items">C++, C#, C, Java, Python</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Engines & Frameworks</span>
+        <span class="skill-items">Unity, Unreal, DirectX11</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Tools</span>
+        <span class="skill-items">GitHub, GitLab, Perforce, Sourcetree, JIRA</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Coursework</span>
+        <span class="skill-items">Applied 3D Geometry, Optimized C++, Multi-Threading, Networking, Algorithms, Machine Learning</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Education</span>
+        <span class="skill-items">MS Game Programming — DePaul (2024–present)<br>BS Computer Science — CSULB (2018–2023)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-title">Contact</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="contact-inner">
+    <h2 class="contact-heading">
+      Let's build something<br><em>worth playing.</em>
+    </h2>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:chrissuga626work@email.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        chrissuga626work@email.com
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/chrissuga" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/chrissuga
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Chris Suga</span>
+  <span>Game Programmer</span>
+</footer>
+
+<script>
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const CELL = 32;          // pixel grid cell size
+  const SCAN_SPEED = 0.4;   // scanline drift speed
+  const GLYPH_CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん#><{}[];';
+  const ACCENT = '61,111,212';  // rgb of --accent
+
+  let cols, rows, glyphs, scanOffset = 0, raf;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    cols = Math.ceil(canvas.width  / CELL) + 1;
+    rows = Math.ceil(canvas.height / CELL) + 1;
+    // seed glyphs grid
+    glyphs = Array.from({ length: cols }, () =>
+      Array.from({ length: rows }, () => ({
+        char:    GLYPH_CHARS[Math.random() * GLYPH_CHARS.length | 0],
+        opacity: Math.random() * 0.5 + 0.05,
+        tick:    Math.random() * 120 | 0,   // when to next change
+        age:     Math.random() * 120 | 0,
+      }))
+    );
+  }
+
+  function draw(ts) {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // ── pixel grid ──────────────────────────────────
+    ctx.strokeStyle = `rgba(${ACCENT},0.07)`;
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += CELL) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += CELL) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // ── glyphs ───────────────────────────────────────
+    ctx.font = `${CELL * 0.5}px 'DM Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const g = glyphs[c][r];
+        g.age++;
+        if (g.age >= g.tick) {
+          g.char    = GLYPH_CHARS[Math.random() * GLYPH_CHARS.length | 0];
+          g.opacity = Math.random() * 0.45 + 0.04;
+          g.tick    = 60 + (Math.random() * 180 | 0);
+          g.age     = 0;
+        }
+        ctx.fillStyle = `rgba(${ACCENT},${g.opacity})`;
+        ctx.fillText(g.char, c * CELL + CELL / 2, r * CELL + CELL / 2);
+      }
+    }
+
+    // ── scanlines ────────────────────────────────────
+    scanOffset = (scanOffset + SCAN_SPEED) % (CELL * 2);
+    for (let y = -CELL * 2 + scanOffset; y < H; y += CELL * 2) {
+      const grad = ctx.createLinearGradient(0, y, 0, y + CELL);
+      grad.addColorStop(0,   `rgba(0,0,0,0)`);
+      grad.addColorStop(0.5, `rgba(0,0,0,0.06)`);
+      grad.addColorStop(1,   `rgba(0,0,0,0)`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y, W, CELL);
+    }
+
+    // ── vignette ─────────────────────────────────────
+    const vig = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.9);
+    vig.addColorStop(0, 'rgba(248,248,246,0)');
+    vig.addColorStop(1, 'rgba(248,248,246,0.72)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); });
+  resize();
+  raf = requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
